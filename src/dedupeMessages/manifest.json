@@ -19,7 +19,7 @@
 		},
 		"channels": {
 			"displayName": "Channels",
-			"description": "The channels in which to perform the checks.",
+			"description": "The IDs of the channels in which to perform the checks.",
 			"type": "list",
 			"default": []
 		}
