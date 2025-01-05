@@ -5,7 +5,7 @@
 	"apiLevel": 2,
 	"meta": {
 		"name": "Dedupe Messages",
-		"tagline": "Warns you when sending messages with links you've already sent.",
+		"tagline": "Warns you when sending messages with links that have already been sent in a channel.",
 		"authors": ["Basil"],
 		"source": "https://github.com/gBasil/moonlight-exts/src/branch/main/src/dedupeMessages"
 	},
