@@ -1,0 +1,27 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "dedupeMessages",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Dedupe Messages",
+		"tagline": "Warns you when sending messages with links you've already sent.",
+		"authors": ["Basil"],
+		"source": "https://github.com/gBasil/moonlight-exts/src/branch/main/src/dedupeMessages"
+	},
+	"dependencies": ["spacepack"],
+	"settings": {
+		"domains": {
+			"displayName": "Domains",
+			"description": "The list of domains to check for duplicates.",
+			"type": "list",
+			"default": []
+		},
+		"channels": {
+			"displayName": "Channels",
+			"description": "The channels in which to perform the checks.",
+			"type": "list",
+			"default": []
+		}
+	}
+}
