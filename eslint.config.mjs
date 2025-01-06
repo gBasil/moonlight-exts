@@ -15,8 +15,8 @@ export default [
 			'@stylistic/indent': ['error', 'tab'],
 			'@stylistic/quotes': ['error', 'single'],
 			'@stylistic/no-trailing-spaces': 'error',
-
-			'@stylistic/comma-dangle': ['error', 'never']
+			'@stylistic/comma-dangle': ['error', 'never'],
+			'@stylistic/semi': ['error', 'always']
 		}
 	}
 ];
