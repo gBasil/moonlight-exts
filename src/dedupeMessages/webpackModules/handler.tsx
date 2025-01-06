@@ -42,11 +42,11 @@ interface Alerts {
 }
 
 const Dispatcher = spacepack.findObjectFromKey(
-	spacepack.findByCode('_checkSavedDispatches')[0].exports,
-	'_checkSavedDispatches'
+	spacepack.findByCode('_checkSavedDispatche' + 's')[0].exports,
+	'_checkSavedDispatche' + 's'
 ) as Dispatcher;
 
-const Alerts = spacepack.findByCode('close(){},')[0].exports.Z as Alerts;
+const Alerts = spacepack.findByCode('close(){}' + ',')[0].exports.Z as Alerts;
 
 const logger = moonlight.getLogger('dedupeMessages/handler');
 
@@ -70,7 +70,7 @@ function confirmPrompt(options: AlertOptions): Promise<boolean> {
 			cancelText: 'Cancel',
 			...options
 		});
-	})
+	});
 }
 
 // Returns a boolean indicating if message sending should abort

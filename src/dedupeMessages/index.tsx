@@ -19,7 +19,9 @@ export const webpackModules: ExtensionWebExports['webpackModules'] = {
 		dependencies: [
 			{ ext: 'spacepack', id: 'spacepack' },
 			{ id: 'discord/utils/HTTPUtils' },
-			{ id: 'react' }
+			{ id: 'react' },
+			'_checkSavedDispatches',
+			'close(){},'
 		]
 	}
 };
