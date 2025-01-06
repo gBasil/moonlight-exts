@@ -1,0 +1,26 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "replyChain",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Reply Chain",
+		"tagline": "Shows a list of replies when following reply chains.",
+		"authors": ["Basil"],
+		"source": "https://github.com/gBasil/moonlight-exts/src/branch/main/src/replyChain"
+	},
+	"settings": {
+		"showWithTwo": {
+			"type": "boolean",
+			"displayName": "Show With Two",
+			"description": "The minimum length of the reply chain before showing the list: enabled for `2` (meaning clicking on any reply will show it), disabled for `3` (meaning you need to click on two chained to show it).",
+			"default": false
+		},
+		"whitelist": {
+			"type": "list",
+			"displayName": "Whitelist",
+			"description": "A list of channel IDs in which the plugin is active. If empty, this option is ignored, and the plugin is enabled everywhere.",
+			"default": []
+		}
+	}
+}

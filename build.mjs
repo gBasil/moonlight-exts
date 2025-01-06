@@ -71,6 +71,10 @@ function makeConfig(ext, name) {
 
 		external: ['electron', 'fs', 'path', 'module', 'events', 'original-fs'],
 
+		supported: {
+			nesting: false
+		},
+
 		plugins: [
 			copyStaticFiles({
 				src: `./src/${ext}/manifest.json`,

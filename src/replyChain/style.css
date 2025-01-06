@@ -1,0 +1,96 @@
+.replyChain-container {
+	contain: paint;
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+
+	/* I'm not sure how else to force the scroller to fit itself */
+	display: flex;
+	flex-direction: column;
+
+	max-width: 320px;
+    max-height: 300px;
+	border-radius: 6px;
+
+	z-index: 5;
+	background-color: var(--primary-800);
+	box-shadow: var(--shadow-high);
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--primary-660);
+	}
+}
+
+.replyChain-scroller {
+	height: 100%;
+	width: 100%;
+	padding: 3px;
+}
+
+.replyChain-container:hover .replyChain-close, .replyChain-close:focus {
+	opacity: 1;
+	transform: translateY(0px);
+}
+
+.replyChain-close {
+	position: fixed;
+	top: 8px;
+	right: 8px;
+
+	padding: 2px;
+	border-radius: 3px;
+	z-index: 1;
+
+	background-color: var(--primary-660);
+	border: 1px solid var(--primary-800);
+	box-shadow: var(--shadow-medium);
+
+	transition: 0.1s ease;
+	transition-property: opacity, transform;
+	opacity: 0;
+	transform: translateY(-8px);
+
+	&:hover {
+		background-color: var(--primary-600);
+	}
+
+	svg {
+		display: block;
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+}
+
+.replyChain-entry {
+	display: flex;
+	align-items: center;
+
+	width: 100%;
+	padding: 2px 4px;
+	border-radius: 3px;
+
+	background-color: unset;
+	color: inherit;
+
+	&:hover {
+		background-color: var(--primary-660);
+	}
+
+	img {
+		border-radius: 999px;
+		margin-right: 5px;
+	}
+
+	strong {
+		margin-right: 8px;
+		color: var(--white-530);
+	}
+
+	span {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		color: var(--white-600);
+		font-weight: var(--font-weight-normal);
+	}
+}
