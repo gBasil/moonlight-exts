@@ -16,6 +16,7 @@
 	},
 	"devDependencies": {
 		"@electron/asar": "^3.2.8",
+		"@moonlight-mod/esbuild-config": "github:moonlight-mod/esbuild-config",
 		"@moonlight-mod/eslint-config": "github:moonlight-mod/eslint-config",
 		"@stylistic/eslint-plugin": "^2.12.1",
 		"esbuild": "^0.19.3",
