@@ -1,15 +1,48 @@
 import type { Patch, PatchReplace } from '@moonlight-mod/types';
-import type * as Vencord from './types';
 import type { ExtensionData } from '../types';
+import type definePlugin from './shims/@utils/types';
+import type * as Vencord from './shims/@utils/types';
 
-// const { fs } = moonlightNodeSandboxed;
-// const { join } = fs;
+import esbuild from 'esbuild-wasm/lib/browser';
+import { transformImports } from '../util/esbuild';
 
-export function convertPlugin(folder: string): ExtensionData {
-	// TODO: Actually implement this function
-	// const indexPath = join(folder, 'index.ts');
+import constants from './shims/@utils/constants?raw';
+import types from './shims/@utils/types?raw';
 
-	const patches: Patch[] = ([] as Vencord.Patch[]).map(convertPatch);
+const { fs } = moonlightNodeSandboxed;
+
+export async function convertPlugin(folder: string): Promise<ExtensionData> {
+	// TODO: Dynamically determine whether ts or tsx
+	const indexPath = fs.join(folder, 'index.ts');
+	const file = await fs.readFileString(indexPath);
+
+	const out = await esbuild.build({
+		stdin: {
+			contents: file,
+			loader: 'ts'
+		},
+
+		bundle: true,
+
+		format: 'iife',
+		globalName: 'out',
+
+		plugins: [
+			transformImports({
+				'@utils/constants': constants,
+				'@utils/types': types
+			})
+		],
+
+		outfile: 'awawa.js',
+		write: false
+	});
+	// For some reason, returning the IIFE doesn't work, but this does
+	const code: string = out.outputFiles[0].text + 'return out;';
+
+	const data = (new Function(code))().default as ReturnType<typeof definePlugin>;
+
+	const patches: Patch[] = (data.patches ?? []).map(convertPatch);
 
 	return {
 		patches,
@@ -18,7 +51,7 @@ export function convertPlugin(folder: string): ExtensionData {
 	};
 }
 
-function convertPatch(patch: Vencord.Patch): Patch {
+function convertPatch(patch: Omit<Vencord.Patch, 'plugin'>): Patch {
 	const replace = Array.isArray(patch.replacement)
 		? patch.replacement.map(convertReplacement)
 		: convertReplacement(patch.replacement);

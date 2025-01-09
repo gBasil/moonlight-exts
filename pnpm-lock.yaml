@@ -11,13 +11,16 @@ importers:
       '@moonlight-mod/types':
         specifier: ^1.3.1
         version: 1.3.1
+      esbuild-wasm:
+        specifier: ^0.24.2
+        version: 0.24.2
     devDependencies:
       '@electron/asar':
         specifier: ^3.2.8
         version: 3.2.8
       '@moonlight-mod/esbuild-config':
         specifier: github:moonlight-mod/esbuild-config
-        version: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/19981580bdb630ef4d0b8d9c24603e873d16e61e(esbuild@0.19.3)
+        version: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122(esbuild@0.19.3)
       '@moonlight-mod/eslint-config':
         specifier: github:moonlight-mod/eslint-config
         version: https://codeload.github.com/moonlight-mod/eslint-config/tar.gz/7eb7bd7c51fe0e3ee9d2a0baf149212d2bb893af(eslint@9.12.0)(prettier@3.3.3)(typescript@5.3.2)
@@ -36,9 +39,6 @@ importers:
       husky:
         specifier: ^9.1.7
         version: 9.1.7
-      prettier:
-        specifier: ^3.1.0
-        version: 3.3.3
       typescript:
         specifier: ^5.3.2
         version: 5.3.2
@@ -232,8 +232,8 @@ packages:
     resolution: {integrity: sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==}
     engines: {node: '>=18.18'}
 
-  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/19981580bdb630ef4d0b8d9c24603e873d16e61e':
-    resolution: {tarball: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/19981580bdb630ef4d0b8d9c24603e873d16e61e}
+  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122':
+    resolution: {tarball: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122}
     version: 1.0.0
     peerDependencies:
       esbuild: '>= 0.19'
@@ -564,6 +564,11 @@ packages:
 
   esbuild-copy-static-files@0.1.0:
     resolution: {integrity: sha512-KlpmYqANA1t2nZavEdItfcOjJC6wbHA21v35HJWN32DddGTWKNNGDKljUzbCPojmpD+wAw8/DXr5abJ4jFCE0w==}
+
+  esbuild-wasm@0.24.2:
+    resolution: {integrity: sha512-03/7Z1gD+ohDnScFztvI4XddTAbKVmMEzCvvkBpQdWKEXJ+73dTyeNrmdxP1Q0zpDMFjzUJwtK4rLjqwiHbzkw==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   esbuild@0.19.3:
     resolution: {integrity: sha512-UlJ1qUUA2jL2nNib1JTSkifQTcYTroFqRjwCFW4QYEKEsixXD5Tik9xML7zh2gTxkYTBKGHNH9y7txMwVyPbjw==}
@@ -1374,7 +1379,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.1': {}
 
-  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/19981580bdb630ef4d0b8d9c24603e873d16e61e(esbuild@0.19.3)':
+  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122(esbuild@0.19.3)':
     dependencies:
       esbuild: 0.19.3
 
@@ -1855,6 +1860,8 @@ snapshots:
       is-symbol: 1.0.4
 
   esbuild-copy-static-files@0.1.0: {}
+
+  esbuild-wasm@0.24.2: {}
 
   esbuild@0.19.3:
     optionalDependencies:
