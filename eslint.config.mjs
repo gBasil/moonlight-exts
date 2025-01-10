@@ -16,7 +16,8 @@ export default [
 			'@stylistic/quotes': ['error', 'single'],
 			'@stylistic/no-trailing-spaces': 'error',
 			'@stylistic/comma-dangle': ['error', 'never'],
-			'@stylistic/semi': ['error', 'always']
+			'@stylistic/semi': ['error', 'always'],
+			'@stylistic/jsx-quotes': ['error', 'prefer-single']
 		}
 	}
 ];
