@@ -3,6 +3,7 @@ import type { ExtensionData } from './types';
 
 import esbuild from 'esbuild-wasm/lib/browser';
 import getVencordData from './vencord/getData';
+import { mergeExtensionData } from './util/data';
 
 import esbuildWasm from 'esbuild-wasm/esbuild.wasm';
 
@@ -27,19 +28,3 @@ export async function getPluginData(): Promise<ExtensionWebExports> {
 
 	return mergeExtensionData(data);
 };
-
-export function mergeExtensionData(data: ExtensionData[]): ExtensionData {
-	return data.reduce<ExtensionData>((acc, cur) => {
-		for (const item of cur.styles) acc.styles.push(item);
-		for (const item of cur.patches) acc.patches.push(item);
-		for (const [key, val] of Object.entries(cur.webpackModules)) {
-			acc.webpackModules[key] = val;
-		}
-
-		return acc;
-	}, {
-		styles: [],
-		patches: [],
-		webpackModules: {}
-	});
-}

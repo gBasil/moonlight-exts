@@ -1,7 +1,7 @@
 import type { ExtensionData } from '../types';
 
-import { mergeExtensionData } from '../natives';
 import VencordPlugin from './plugin';
+import { mergeExtensionData } from '../util/data';
 
 const { fs } = moonlightNodeSandboxed;
 
