@@ -16,8 +16,7 @@ export async function getPluginData(): Promise<ExtensionWebExports> {
 		// TODO: Do this better (don't just bundle the entire 10MB file inline)
 		wasmURL: URL.createObjectURL(
 			new Blob([esbuildWasm])
-		),
-		worker: false
+		)
 	});
 
 	const data: ExtensionData[] = [

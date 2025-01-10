@@ -1,19 +1,24 @@
 import type { ExtensionData } from '../types';
 
 import { mergeExtensionData } from '../natives';
-import { convertPlugin } from './plugin';
+import VencordPlugin from './plugin';
 
 const { fs } = moonlightNodeSandboxed;
 
 export default async function getVencordData(): Promise<ExtensionData> {
 	// TODO: Filter out non-folders, check if folder exists, etc.
 
-	const folder = '/absolute/path/to/vencord/plugins/folder';
-	const entries = await fs.readdir(folder);
+	const location = '/absolute/path/to/vencord/plugins/';
+	const entries = (await fs.readdir(location))
+		.filter(e => e !== '.DS_Store' && !e.startsWith('_'));
 
-	const folders = entries.map(path => fs.join(folder, path));
+	moonlightNode.getLogger('extensionCompat/vencord').info(`Loading extensions: ${entries.join(', ')}`);
 
 	return mergeExtensionData(
-		await Promise.all(folders.map(convertPlugin))
+		await Promise.all(
+			entries.map(entry =>
+				VencordPlugin.convert(fs.join(location, entry), entry)
+			)
+		)
 	);
 }

@@ -1,3 +1,11 @@
+/**
+ * Vencord
+ *
+ * @copyright 2022 Vendicated and contributors
+ * @link https://github.com/Vendicated/Vencord
+ * @license GPL-3.0-or-later
+ */
+
 export default function definePlugin<P extends PluginDef>(p: P & Record<string, any>) {
 	return p;
 }
