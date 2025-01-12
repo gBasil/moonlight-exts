@@ -39,7 +39,7 @@ function getReplyData(message: Message, guildId: string | null): ReplyData {
 	};
 }
 
-export async function handle(data: MessageData) {
+export function handle(data: MessageData) {
 	// If the reply isn't loaded, we don't jump, so we also shouldn't attempt to add it to the list
 	if (data.referencedMessage.state === 1) return;
 

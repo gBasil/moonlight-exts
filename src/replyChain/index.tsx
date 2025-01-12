@@ -1,4 +1,4 @@
-import { ExtensionWebExports } from '@moonlight-mod/types';
+import type { ExtensionWebExports } from '@moonlight-mod/types';
 
 export const patches: ExtensionWebExports['patches'] = [
 	// Patch the function that gets called when you click a message reply to jump to the message

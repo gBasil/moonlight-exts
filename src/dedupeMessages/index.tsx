@@ -1,4 +1,4 @@
-import { ExtensionWebExports } from '@moonlight-mod/types';
+import type { ExtensionWebExports } from '@moonlight-mod/types';
 
 export const patches: ExtensionWebExports['patches'] = [
 	// NOTE: This does not work for messages with attachments

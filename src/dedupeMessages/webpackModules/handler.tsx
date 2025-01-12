@@ -2,8 +2,16 @@ import { HTTP } from '@moonlight-mod/wp/discord/utils/HTTPUtils';
 import spacepack from '@moonlight-mod/wp/spacepack_spacepack';
 import React from '@moonlight-mod/wp/react';
 
+const Dispatcher = spacepack.findObjectFromKey(
+	spacepack.findByCode(`_checkSavedDispatche${''}s`)[0].exports,
+	`_checkSavedDispatche${''}s`
+) as Dispatcher;
+const Alerts = spacepack.findByCode(`close(){}${''},`)[0].exports.Z as Alerts;
+
 // Discord's URL RegEx
 const URL_REGEX = /https?:\/\/[^\s<]+[^<.,:;"')\]\s]/gm;
+
+const logger = moonlight.getLogger('dedupeMessages/handler');
 
 type MessageData = {
 	content: string;
@@ -40,15 +48,6 @@ type AlertOptions = Partial<{
 interface Alerts {
 	show(options: AlertOptions): Promise<boolean>;
 }
-
-const Dispatcher = spacepack.findObjectFromKey(
-	spacepack.findByCode('_checkSavedDispatche' + 's')[0].exports,
-	'_checkSavedDispatche' + 's'
-) as Dispatcher;
-
-const Alerts = spacepack.findByCode('close(){}' + ',')[0].exports.Z as Alerts;
-
-const logger = moonlight.getLogger('dedupeMessages/handler');
 
 function linksInStr(str: string): string[] {
 	const links = Array.from(str.matchAll(URL_REGEX)).map(([url]) => url);
