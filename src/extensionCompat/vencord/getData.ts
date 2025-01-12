@@ -1,23 +1,33 @@
-import type { ExtensionData } from '../types';
+import type { Config, ExtensionData } from '../types';
 
 import VencordPlugin from './plugin';
 import { mergeExtensionData } from '../util/data';
+import { exists, getPath, isFile, readDir } from '../util/fs';
+import { s } from '../util/text';
 
-const { fs } = moonlightNodeSandboxed;
+export default async function getVencordData(config: Config): Promise<ExtensionData> {
+	if (!(await exists('vencord'))) return {
+		styles: [],
+		patches: [],
+		webpackModules: {}
+	};
 
-export default async function getVencordData(): Promise<ExtensionData> {
-	// TODO: Filter out non-folders, check if folder exists, etc.
+	const rawEntries = await readDir('vencord');
+	const entries: string[] = [];
+	for (const entry of rawEntries) {
+		// It would be better to check if it was a folder (i.e. in the case of symlinks), but this is the best moonlight lets us do
+		const file = await isFile(`vencord/${entry}`);
+		const settings = config.vencord[entry];
+		if (!file && settings !== undefined && settings.enabled) entries.push(entry);
+	}
 
-	const location = '/absolute/path/to/vencord/plugins/';
-	const entries = (await fs.readdir(location))
-		.filter(e => e !== '.DS_Store' && !e.startsWith('_'));
-
-	moonlightNode.getLogger('extensionCompat/vencord').info(`Loading extensions: ${entries.join(', ')}`);
+	moonlightNode.getLogger('extensionCompat/vencord')
+		.info(`Loading ${entries.length} extension${s(entries.length)}`);
 
 	return mergeExtensionData(
 		await Promise.all(
-			entries.map(entry =>
-				VencordPlugin.convert(fs.join(location, entry), entry)
+			entries.map(async entry =>
+				await VencordPlugin.convert(await getPath(`vencord/${entry}`), entry)
 			)
 		)
 	);

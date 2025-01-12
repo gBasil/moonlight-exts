@@ -1,0 +1,18 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index d8aa5575987bd4eaf17168b6088715dda190630d..5c3f327ac4094b27b7633e9d63f2b7b466c8ee6e 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -43,10 +43,11 @@ interface TarFileAttrs {
+     group?: string;
+ }
+ 
+-declare function parseTar(data: ArrayBuffer | Uint8Array): TarFileItem[];
++// https://github.com/unjs/nanotar/issues/24
++declare function parseTar(data: ArrayBuffer | Uint8Array): ParsedTarFileItem[];
+ declare function parseTarGzip(data: ArrayBuffer | Uint8Array, opts?: {
+     compression?: CompressionFormat;
+-}): Promise<TarFileItem[]>;
++}): Promise<ParsedTarFileItem[]>;
+ 
+ interface CreateTarOptions {
+     attrs?: TarFileAttrs;

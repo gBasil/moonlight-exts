@@ -1,3 +1,3 @@
-import { getPluginData } from './natives';
+import * as exports from './natives';
 
-module.exports = { getPluginData };
+module.exports = exports;

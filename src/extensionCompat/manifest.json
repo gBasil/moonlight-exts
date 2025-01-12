@@ -8,5 +8,6 @@
 		"tagline": "Experimental compatibility with plugins from other client mods.",
 		"authors": ["Basil"],
 		"source": "https://github.com/gBasil/moonlight-exts/src/branch/main/src/extensionCompat"
-	}
+	},
+	"dependencies": ["settings", "spacepack"]
 }

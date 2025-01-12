@@ -14,10 +14,12 @@ const plugins = {
 
 				// Bad solution for now to get it to work
 				// TODO: Load WASM better and remove this config
-				options.loader ||= {};
-				options.loader['.wasm'] ||= 'binary';
+				options.loader ??= {};
+				options.loader['.wasm'] ??= 'binary';
+				options.loader['.webp'] ??= 'dataurl';
 
-				// Taken from `rawImports` because it's in a .ts file
+				// Load files with ?raw at the end as text
+
 				build.onResolve({ filter: /\?raw$/ }, async args => {
 					const { path, errors } = await build.resolve(args.path.slice(0, -4), {
 						resolveDir: args.resolveDir,

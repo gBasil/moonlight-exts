@@ -10,8 +10,7 @@ import { runtimeHashMessageKey } from './shims/@utils/intlHash';
 import constants from './shims/@utils/constants?raw';
 import types from './shims/@utils/types?raw';
 import { strToRegex } from '../util/regex';
-
-const { fs } = moonlightNodeSandboxed;
+import { fs } from '../util/fs';
 
 export default class VencordPlugin {
 	constructor(public folder: string, public pluginId: string) {}
@@ -22,8 +21,8 @@ export default class VencordPlugin {
 
 	async convert(): Promise<ExtensionData> {
 		// TODO: Dynamically determine whether ts or tsx
-		const indexPath = fs.join(this.folder, 'index.ts');
-		const file = await fs.readFileString(indexPath);
+		const indexPath = fs().join(this.folder, 'index.ts');
+		const file = await fs().readFileString(indexPath);
 
 		const out = await esbuild.build({
 			stdin: {

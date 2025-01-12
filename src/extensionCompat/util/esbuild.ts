@@ -1,7 +1,5 @@
 import type { Plugin } from 'esbuild-wasm';
 
-import fs from 'node:fs';
-
 export function transformImports(map: Record<string, string>): Plugin {
 	return {
 		name: 'Transform Imports',
@@ -31,28 +29,3 @@ export function transformImports(map: Record<string, string>): Plugin {
 		}
 	};
 }
-
-export const rawImports: Plugin = {
-	name: 'Raw Imports',
-	setup(build) {
-		build.onResolve({ filter: /\?raw$/ }, async args => {
-			const { path, errors } = await build.resolve(args.path.slice(0, -4), {
-				resolveDir: args.resolveDir,
-				kind: args.kind,
-				importer: args.importer
-			});
-			if (errors.length > 0) return { errors };
-
-			return {
-				path,
-				watchFiles: [path],
-				namespace: 'raw'
-			};
-		});
-
-		build.onLoad({ filter: /.*/, namespace: 'raw' }, args => ({
-			contents: fs.readFileSync(args.path, 'utf8'),
-			loader: 'text'
-		}));
-	}
-};

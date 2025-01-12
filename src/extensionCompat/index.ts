@@ -1,5 +1,34 @@
-import type { CompatNatives } from './natives';
+import type { ExtensionWebExports } from '@moonlight-mod/types';
 
-const natives = moonlight.getNatives('extensionCompat') as CompatNatives;
+import getNatives from './util/natives';
 
-export const { patches, styles, webpackModules } = await natives.getPluginData();
+const natives = getNatives();
+const data = await natives.buildPluginData();
+
+export const { patches, styles } = data;
+export const webpackModules: ExtensionWebExports['webpackModules'] = {
+	...data.webpackModules,
+
+	stores: {
+		dependencies: [{ id: 'discord/packages/flux' }, { id: 'discord/Dispatcher' }]
+	},
+
+	ui: {
+		dependencies: [
+			{ ext: 'spacepack', id: 'spacepack' },
+			{ ext: 'common', id: 'stores' },
+			{ ext: 'extensionCompat', id: 'stores' },
+			{ id: 'react' },
+			{ id: 'discord/components/common/index' },
+			{ id: 'discord/modules/guild_settings/IntegrationCard.css' }
+		]
+	},
+
+	settings: {
+		dependencies: [
+			{ ext: 'settings', id: 'settings' },
+			{ ext: 'extensionCompat', id: 'ui' }
+		],
+		entrypoint: true
+	}
+};
