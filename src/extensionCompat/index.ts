@@ -10,6 +10,8 @@ export const { patches, styles } = data;
 export const webpackModules: ExtensionWebExports['webpackModules'] = {
 	...data.webpackModules,
 
+	webpack: { entrypoint: true },
+
 	stores: {
 		dependencies: [{ id: 'discord/packages/flux' }, { id: 'discord/Dispatcher' }]
 	},
