@@ -83,8 +83,7 @@ class ExtensionCompatStore extends Store<any> {
 			this.vencord.installed[id] = val;
 			this.vencord.origInstalled[id] = val;
 
-			this.modified = true;
-			this.emitChange();
+			this.writeConfig();
 		} catch (e) {
 			logger.error(`Error installing Vencord plugin ${id}:`, e);
 			throw e;
@@ -100,6 +99,8 @@ class ExtensionCompatStore extends Store<any> {
 			delete this.vencord.installed[id];
 			delete this.vencord.origInstalled[id];
 
+			// TODO: This shouldn't trigger `modified`, but instead show a
+			// dialog to confirm and then immediately write upon confirmation
 			this.modified = true;
 			this.emitChange();
 		} catch (e) {
