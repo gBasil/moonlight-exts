@@ -1,4 +1,5 @@
 import type { Plugin } from 'esbuild-wasm';
+import { fs } from './fs';
 
 export function transformImports(map: Record<string, string>): Plugin {
 	return {
@@ -24,6 +25,32 @@ export function transformImports(map: Record<string, string>): Plugin {
 				return {
 					contents: map[args.path],
 					loader: 'ts'
+				};
+			});
+		}
+	};
+}
+
+export function handleFileUrls(folder: string): Plugin {
+	return {
+		name: 'file-uri-plugin',
+		setup: build => {
+			const filter = /^file:\/\/.+$/;
+			build.onResolve({ filter }, args => {
+				return {
+					namespace: 'file-uri',
+					path: args.path,
+					pluginData: {
+						uri: args.path,
+						path: fs().join(folder, args.path.slice('file://'.length).split('?')[0])
+					}
+				};
+			});
+			build.onLoad({ filter, namespace: 'file-uri' }, async ({ pluginData: { path, uri } }) => {
+				const contents = await fs().readFileString(path);
+
+				return {
+					contents: `export default ${JSON.stringify(contents)}`
 				};
 			});
 		}
