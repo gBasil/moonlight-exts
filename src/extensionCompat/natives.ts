@@ -1,21 +1,16 @@
 import type { ExtensionWebExports } from '@moonlight-mod/types';
-import type { Config, ExtensionData } from './types';
+import type { Config } from './types';
 
 import esbuild from 'esbuild-wasm/lib/browser';
-import getVencordData from './vencord/getData';
+import Vencord from './vencord';
 import { mergeExtensionData } from './util/data';
 import { exists, readFileString, writeFileString } from './util/fs';
 
 import esbuildWasm from 'esbuild-wasm/esbuild.wasm';
 
-// buildPluginData might be a better name
-export async function buildPluginData(): Promise<ExtensionWebExports> {
-	if (!(await hasConfig())) return {
-		styles: [],
-		patches: [],
-		webpackModules: {}
-	};
+export let vencord: Vencord;
 
+export async function initPlugins() {
 	const config = await readConfig();
 
 	await esbuild.initialize({
@@ -25,13 +20,19 @@ export async function buildPluginData(): Promise<ExtensionWebExports> {
 		)
 	});
 
-	const data: ExtensionData[] = [
-		await getVencordData(config)
-	];
+	vencord = await Vencord.init(config);
 
 	await esbuild.stop();
+}
 
-	return mergeExtensionData(data);
+export function getMoonlightData(): ExtensionWebExports {
+	return mergeExtensionData([
+		vencord.getMoonlightData()
+	]);
+}
+
+export function getVencordPlugins(): Vencord['plugins'] {
+	return vencord.plugins;
 }
 
 export async function hasConfig(): Promise<boolean> {

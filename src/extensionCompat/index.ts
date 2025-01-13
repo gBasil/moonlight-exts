@@ -3,7 +3,8 @@ import type { ExtensionWebExports } from '@moonlight-mod/types';
 import getNatives from './util/natives';
 
 const natives = getNatives();
-const data = await natives.buildPluginData();
+await natives.initPlugins();
+const data = natives.getMoonlightData();
 
 export const { patches, styles } = data;
 export const webpackModules: ExtensionWebExports['webpackModules'] = {

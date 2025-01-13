@@ -1,27 +1,23 @@
 import type { Patch, PatchReplace } from '@moonlight-mod/types';
 import type { ExtensionData } from '../types';
-import type definePlugin from './shims/@utils/types';
+import type { PluginDef } from './shims/@utils/types';
 import type * as Vencord from './shims/@utils/types';
 
 import esbuild from 'esbuild-wasm/lib/browser';
 import { transformImports } from '../util/esbuild';
 import { runtimeHashMessageKey } from './shims/@utils/intlHash';
-
-import constants from './shims/@utils/constants?raw';
-import types from './shims/@utils/types?raw';
 import { strToRegex } from '../util/regex';
 import { fs } from '../util/fs';
 
+import constants from './shims/@utils/constants?raw';
+import types from './shims/@utils/types?raw';
+
 export default class VencordPlugin {
-	constructor(public folder: string, public pluginId: string) {}
+	private constructor(public plugin: PluginDef) {}
 
-	static convert(folder: string, pluginId: string): Promise<ExtensionData> {
-		return new VencordPlugin(folder, pluginId).convert();
-	}
-
-	async convert(): Promise<ExtensionData> {
+	static async init(folder: string): Promise<VencordPlugin> {
 		// TODO: Dynamically determine whether ts or tsx
-		const indexPath = fs().join(this.folder, 'index.ts');
+		const indexPath = fs().join(folder, 'index.ts');
 		const file = await fs().readFileString(indexPath);
 
 		const out = await esbuild.build({
@@ -48,9 +44,13 @@ export default class VencordPlugin {
 		// For some reason, returning the IIFE doesn't work, but this does
 		const code: string = out.outputFiles[0].text + 'return out;';
 
-		const data = (new Function(code))().default as ReturnType<typeof definePlugin>;
+		const plugin = (new Function(code))().default as PluginDef;
 
-		const patches: Patch[] = (data.patches ?? []).map(e => this.convertPatch(e));
+		return new VencordPlugin(plugin);
+	}
+
+	convert(): ExtensionData {
+		const patches: Patch[] = (this.plugin.patches ?? []).map(e => this.convertPatch(e));
 
 		return {
 			patches,
@@ -74,6 +74,7 @@ export default class VencordPlugin {
 		} else {
 			find = patch.find;
 		}
+		find = this.canonicalizeMatch(find);
 
 		const replace = (
 			Array.isArray(patch.replacement)
@@ -93,11 +94,9 @@ export default class VencordPlugin {
 	}
 
 	private convertReplacement(rep: Vencord.PatchReplacement): PatchReplace {
-		// TODO: canonicalize the replacement
-
 		rep.match = this.canonicalizeMatch(rep.match);
+		rep.replace = this.canonicalizeReplace(rep.replace, this.plugin.name);
 
-		// rep.
 		return {
 			// Vencord converts string matches to RegExp
 			match: typeof rep.match === 'string' ? new RegExp(rep.match) : rep.match,
@@ -129,5 +128,14 @@ export default class VencordPlugin {
 
 		// We don't need to apply the \i replacement because moonlight already does that
 		return new RegExp(canon, match.flags) as T;
+	}
+
+	private canonicalizeReplace<T extends string | Vencord.ReplaceFn>(replace: T, pluginName: string): T {
+		const self = `Vencord.Plugins.plugins[${JSON.stringify(pluginName)}]`;
+
+		if (typeof replace !== 'function')
+			return replace.replaceAll('$self', self) as T;
+
+		return ((...args) => replace(...args).replaceAll('$self', self)) as T;
 	}
 }

@@ -29,3 +29,14 @@ declare module '*.webp' {
 	const src: string;
 	export default src;
 }
+
+interface Window<
+	// Imports are put here into generics to get around weirdness when adding imports
+	VencordPluginDef = import('src/extensionCompat/vencord/shims/@utils/types')
+> {
+	Vencord: {
+		Plugins: {
+			plugins: Record<string, VencordPluginDef>;
+		};
+	};
+}
