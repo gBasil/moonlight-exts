@@ -40,6 +40,7 @@ export async function hasConfig(): Promise<boolean> {
 }
 
 export async function readConfig(): Promise<Config> {
+	if (!(await hasConfig())) return new Promise(res => res({ vencord: {} }));
 	const text = await readFileString('config.json');
 	return JSON.parse(text) as Config;
 }

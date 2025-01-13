@@ -2,7 +2,7 @@ import type { ExtensionWebExports } from '@moonlight-mod/types';
 import type { Config } from '../types';
 
 import VencordPlugin from './plugin';
-import { getPath, isFile, readDir } from '../util/fs';
+import { exists, getPath, isFile, readDir } from '../util/fs';
 import { s } from '../util/text';
 import { mergeExtensionData } from '../util/data';
 
@@ -13,6 +13,7 @@ export default class Vencord {
 	) {}
 
 	static async init(config: Config): Promise<Vencord> {
+		if (!(await exists('vencord'))) return new Vencord({});
 		const rawEntries = await readDir('vencord');
 		const entries: string[] = [];
 		for (const entry of rawEntries) {
