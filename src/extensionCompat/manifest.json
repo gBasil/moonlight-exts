@@ -9,5 +9,5 @@
 		"authors": ["Basil"],
 		"source": "https://github.com/gBasil/moonlight-exts/src/branch/main/src/extensionCompat"
 	},
-	"dependencies": ["settings", "spacepack"]
+	"dependencies": ["settings", "commands", "spacepack"]
 }

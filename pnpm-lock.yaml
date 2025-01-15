@@ -17,8 +17,8 @@ importers:
         specifier: ^0.1.2
         version: 0.1.2
       '@moonlight-mod/types':
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: github:moonlight-mod/moonlight#develop&path:packages/types
+        version: https://codeload.github.com/moonlight-mod/moonlight/tar.gz/6cc9d25478694c76f4b8759be8297c784582562b#path:packages/types
       esbuild-wasm:
         specifier: ^0.24.2
         version: 0.24.2
@@ -31,7 +31,7 @@ importers:
         version: 3.2.8
       '@moonlight-mod/esbuild-config':
         specifier: github:moonlight-mod/esbuild-config
-        version: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122(esbuild@0.19.3)
+        version: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/e3364450db91265d8940bfde17403d8e6d511d42(esbuild@0.19.3)
       '@moonlight-mod/eslint-config':
         specifier: github:moonlight-mod/eslint-config
         version: https://codeload.github.com/moonlight-mod/eslint-config/tar.gz/7eb7bd7c51fe0e3ee9d2a0baf149212d2bb893af(eslint@9.12.0)(prettier@3.3.3)(typescript@5.3.2)
@@ -246,8 +246,8 @@ packages:
   '@intrnl/xxhash64@0.1.2':
     resolution: {integrity: sha512-1+lx7j99fdph+uy3EnjQyr39KQZ7LP56+aWOr6finJWpgYpvb7XrhFUqDwnEk/wpPC98nCjAT6RulpW3crWjlg==}
 
-  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122':
-    resolution: {tarball: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122}
+  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/e3364450db91265d8940bfde17403d8e6d511d42':
+    resolution: {tarball: https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/e3364450db91265d8940bfde17403d8e6d511d42}
     version: 1.0.0
     peerDependencies:
       esbuild: '>= 0.19'
@@ -262,8 +262,8 @@ packages:
   '@moonlight-mod/lunast@1.0.0':
     resolution: {integrity: sha512-kJgf41K12i6/2LbXK97CNO+pNO7ADGh9N4bCQcOPwosocKMcwKHDEZUgPqeihNshY3c3AEW1LiyXjlsl24PdDw==}
 
-  '@moonlight-mod/mappings@1.0.8':
-    resolution: {integrity: sha512-O4bl3bWEiHJ8D1teP5YF0aqV3PK0380jW0adcYk8trmjVasTxGnI9pSZhu4AISVs+HjcOCQZEAKrnrQB2M6bYA==}
+  '@moonlight-mod/mappings@1.0.10':
+    resolution: {integrity: sha512-L04To4MhlxOWxvvfVIRwj7d8H5qHthjUfikSx9WMk60qt67+6dFzN9CoAG9uG5l1B27IIEG3voVXBr0oSkooYw==}
     peerDependencies:
       '@moonlight-mod/lunast': ^1.0.0
       '@moonlight-mod/moonmap': ^1.0.0
@@ -271,8 +271,9 @@ packages:
   '@moonlight-mod/moonmap@1.0.3':
     resolution: {integrity: sha512-G7pwvrcVDimc388IX6VZFzBXpbuyvqbJ+w9/v+MUIc8P7dADJXQ9YkBWvobtRc6eaBBl1FWUwTeU8oobbxLVag==}
 
-  '@moonlight-mod/types@1.3.1':
-    resolution: {integrity: sha512-Y2YB8BYX1d6QhUph0V7wVcjipnpndOzbi/YIEBHDP0YSN9+hjEKjthv6xGSLK9KzHn8adN7Pv3DpMOmEIQ0Esg==}
+  '@moonlight-mod/types@https://codeload.github.com/moonlight-mod/moonlight/tar.gz/6cc9d25478694c76f4b8759be8297c784582562b#path:packages/types':
+    resolution: {path: packages/types, tarball: https://codeload.github.com/moonlight-mod/moonlight/tar.gz/6cc9d25478694c76f4b8759be8297c784582562b}
+    version: 1.3.5
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1398,7 +1399,7 @@ snapshots:
 
   '@intrnl/xxhash64@0.1.2': {}
 
-  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/02870fc496658fe67c033d46c14be33425d4f122(esbuild@0.19.3)':
+  '@moonlight-mod/esbuild-config@https://codeload.github.com/moonlight-mod/esbuild-config/tar.gz/e3364450db91265d8940bfde17403d8e6d511d42(esbuild@0.19.3)':
     dependencies:
       esbuild: 0.19.3
 
@@ -1422,7 +1423,7 @@ snapshots:
       estree-toolkit: 1.7.8
       meriyah: 6.0.2
 
-  '@moonlight-mod/mappings@1.0.8(@moonlight-mod/lunast@1.0.0)(@moonlight-mod/moonmap@1.0.3)':
+  '@moonlight-mod/mappings@1.0.10(@moonlight-mod/lunast@1.0.0)(@moonlight-mod/moonmap@1.0.3)':
     dependencies:
       '@moonlight-mod/lunast': 1.0.0
       '@moonlight-mod/moonmap': 1.0.3
@@ -1432,10 +1433,10 @@ snapshots:
 
   '@moonlight-mod/moonmap@1.0.3': {}
 
-  '@moonlight-mod/types@1.3.1':
+  '@moonlight-mod/types@https://codeload.github.com/moonlight-mod/moonlight/tar.gz/6cc9d25478694c76f4b8759be8297c784582562b#path:packages/types':
     dependencies:
       '@moonlight-mod/lunast': 1.0.0
-      '@moonlight-mod/mappings': 1.0.8(@moonlight-mod/lunast@1.0.0)(@moonlight-mod/moonmap@1.0.3)
+      '@moonlight-mod/mappings': 1.0.10(@moonlight-mod/lunast@1.0.0)(@moonlight-mod/moonmap@1.0.3)
       '@moonlight-mod/moonmap': 1.0.3
       '@types/react': 18.3.11
       csstype: 3.1.3

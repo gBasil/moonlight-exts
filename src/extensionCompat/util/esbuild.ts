@@ -29,3 +29,16 @@ export function transformImports(map: Record<string, string>): Plugin {
 		}
 	};
 }
+
+export const webpackImports: Plugin = {
+	name: 'webpackImports',
+	setup(build) {
+		build.onResolve({ filter: /^@moonlight-mod\/wp\// }, args => {
+			const wpModule = args.path.replace(/^@moonlight-mod\/wp\//, '');
+			return {
+				path: wpModule,
+				external: true
+			};
+		});
+	}
+};

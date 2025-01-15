@@ -4,13 +4,14 @@ import type { PluginDef } from './shims/@utils/types';
 import type * as Vencord from './shims/@utils/types';
 
 import esbuild from 'esbuild-wasm/lib/browser';
-import { transformImports } from '../util/esbuild';
+import { transformImports, webpackImports } from '../util/esbuild';
 import { runtimeHashMessageKey } from './shims/@utils/intlHash';
 import { strToRegex } from '../util/regex';
 import { fs } from '../util/fs';
 
 import constants from './shims/@utils/constants?raw';
 import types from './shims/@utils/types?raw';
+import Commands from './shims/@api/Commands?raw';
 
 export default class VencordPlugin {
 	private constructor(public plugin: PluginDef) {}
@@ -34,8 +35,10 @@ export default class VencordPlugin {
 			plugins: [
 				transformImports({
 					'@utils/constants': constants,
-					'@utils/types': types
-				})
+					'@utils/types': types,
+					'@api/Commands': Commands
+				}),
+				webpackImports
 			],
 
 			outfile: 'awawa.js',
