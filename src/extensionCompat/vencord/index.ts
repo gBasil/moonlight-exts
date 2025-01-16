@@ -23,13 +23,17 @@ export default class Vencord {
 			if (!file && settings !== undefined && settings.enabled) entries.push(entry);
 		}
 
-		moonlightNode.getLogger('extensionCompat/vencord')
-			.info(`Loading ${entries.length} extension${s(entries.length)}`);
+		const logger = moonlightNode.getLogger('extensionCompat/vencord');
+
+		logger.info(`Loading ${entries.length} extension${s(entries.length)}`);
 
 		const plugins: Record<string, VencordPlugin> = {};
 		for (const entry of entries) {
-			const plugin = await VencordPlugin.init(await getPath(`vencord/${entry}`));
-			plugins[entry] = plugin;
+			try {
+				plugins[entry] = await VencordPlugin.init(await getPath(`vencord/${entry}`));
+			} catch (e) {
+				logger.error(`Failed to load extension ${entry}:\n\n`, e);
+			}
 		}
 
 		return new Vencord(plugins);
