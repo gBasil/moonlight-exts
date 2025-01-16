@@ -52,6 +52,7 @@ export interface PluginDef {
 	name: string;
 	description: string;
 	authors: PluginAuthor[];
+	// NOTE: To simplify things, we only support `start`, not `stop`. `start` is called on boot if the extension is enabled.
 	start?(): void;
 	stop?(): void;
 	patches?: Omit<Patch, 'plugin'>[];
