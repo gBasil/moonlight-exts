@@ -8,7 +8,7 @@ import { exists, readFileString, writeFileString } from './util/fs';
 
 import esbuildWasm from 'esbuild-wasm/esbuild.wasm';
 
-export let vencord: Vencord;
+let vencord: Vencord;
 
 export async function initPlugins() {
 	const config = await readConfig();
@@ -33,6 +33,10 @@ export function getMoonlightData(): ExtensionWebExports {
 
 export function getVencordPlugins(): Vencord['plugins'] {
 	return vencord.plugins;
+}
+
+export function getVencordFailures(): Vencord['failures'] {
+	return vencord.failures;
 }
 
 export async function hasConfig(): Promise<boolean> {

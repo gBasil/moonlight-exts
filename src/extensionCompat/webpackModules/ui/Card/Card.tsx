@@ -6,6 +6,7 @@ import * as Components from '@moonlight-mod/wp/discord/components/common/index';
 import Flex from '@moonlight-mod/wp/discord/uikit/Flex';
 import MarkupUtils from '@moonlight-mod/wp/discord/modules/markup/MarkupUtils';
 import IntegrationCard from '@moonlight-mod/wp/discord/modules/guild_settings/IntegrationCard.css';
+import { ExtensionState } from 'src/extensionCompat/types';
 import CardInfo from './CardInfo';
 
 enum ExtensionPage {
@@ -13,13 +14,7 @@ enum ExtensionPage {
 	Description
 }
 
-export enum ExtensionState {
-	NotInstalled,
-	Disabled,
-	Enabled
-}
-
-const { TrashIcon, AngleBracketsIcon, CircleWarningIcon, Tooltip } = Components;
+const { TrashIcon, AngleBracketsIcon, CircleWarningIcon, Tooltip, Card: DiscordCard, Text, FormSwitch, TabBar, Button } = Components;
 const PanelButton = spacepack.findByCode('Masks.PANEL_BUTTON')[0].exports.Z;
 const TabBarClasses = spacepack.findByExports('tabBar', 'tabBarItem', 'headerContentWrapper')[0].exports;
 const MarkupClasses = spacepack.findByExports('markup', 'inlineFormat')[0].exports;
@@ -38,6 +33,7 @@ export type CardProps = {
 	implicitlyEnabled: boolean;
 	compatible: boolean;
 	conflicting: boolean;
+	failed: boolean;
 	updateAvailable: boolean;
 	/**
 	 * Callback that runs when clicking the install button to install the extension.
@@ -69,13 +65,8 @@ export default function Card(props: CardProps) {
 	const [tab, setTab] = React.useState(ExtensionPage.Info);
 	const [busy, setBusy] = React.useState(false);
 
-	// TODO:
-	const restartNeeded = false;
-
-	const { Card, Text, FormSwitch, TabBar, Button } = Components;
-
 	return (
-		<Card editable={true} className={IntegrationCard.card}>
+		<DiscordCard editable={true} className={IntegrationCard.card}>
 			<div className={IntegrationCard.cardHeader}>
 				<Flex direction={Flex.Direction.VERTICAL}>
 					<Flex direction={Flex.Direction.HORIZONTAL} align={Flex.Align.CENTER}>
@@ -93,6 +84,22 @@ export default function Card(props: CardProps) {
 							gap: '1rem'
 						}}
 					>
+						{props.failed && (
+							<Tooltip
+								text={
+									'An error ocurred when attempting to load this plugin.' +
+									'\n\n' +
+									'The full error has been printed to the console.'
+								}
+								tooltipStyle={{ 'whiteSpaceCollapse': 'preserve-breaks' }}
+								shouldShow
+							>
+								{tooltipProps => (
+									<CircleWarningIcon {...tooltipProps} color={Components.tokens.colors.STATUS_DANGER} />
+								)}
+							</Tooltip>
+						)}
+
 						{props.source !== undefined && (
 							<PanelButton
 								icon={AngleBracketsIcon}
@@ -129,14 +136,6 @@ export default function Card(props: CardProps) {
 									tooltipText='Delete'
 									onClick={props.onUninstall}
 								/>
-
-								{restartNeeded && (
-									<PanelButton
-										icon={() => <CircleWarningIcon color={Components.tokens.colors.STATUS_DANGER} />}
-										onClick={() => window.location.reload()}
-										tooltipText='You will need to reload/restart your client for this extension to work properly.'
-									/>
-								)}
 
 								<FormSwitch
 									value={props.state === ExtensionState.Enabled || props.implicitlyEnabled}
@@ -193,6 +192,6 @@ export default function Card(props: CardProps) {
 					)}
 				</Flex>
 			</div>
-		</Card>
+		</DiscordCard>
 	);
 }

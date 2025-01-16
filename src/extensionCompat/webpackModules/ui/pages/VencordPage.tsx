@@ -2,7 +2,6 @@ import React from '@moonlight-mod/wp/react';
 import { useStateFromStores } from '@moonlight-mod/wp/discord/packages/flux';
 import { ExtensionCompatStore } from '@moonlight-mod/wp/extensionCompat_stores';
 import BasePage from './BasePage';
-import { ExtensionState } from '../Card/Card';
 
 export default function VencordPage() {
 	const plugins = useStateFromStores([ExtensionCompatStore], () => ExtensionCompatStore.vencord.repo);
@@ -16,13 +15,8 @@ export default function VencordPage() {
 			tags: e.tags.length > 0 ? e.tags : undefined,
 			source: `https://github.com/Vendicated/Vencord/tree/main/src/plugins/${e.id}`,
 
-			state: ExtensionCompatStore.isInstalledVencordPlugin(e.id)
-				? (
-					ExtensionCompatStore.isEnabledVencordPlugin(e.id)
-						? ExtensionState.Enabled
-						: ExtensionState.Disabled
-				)
-				: ExtensionState.NotInstalled,
+			state: ExtensionCompatStore.getVencordPluginState(e.id),
+			failed: ExtensionCompatStore.getVencordPluginFailed(e.id),
 
 			// TODO: All of these
 			compatible: true,

@@ -9,11 +9,13 @@ import { mergeExtensionData } from '../util/data';
 export default class Vencord {
 	private constructor(
 		/** Keys are plugin IDs. */
-		public plugins: Record<string, VencordPlugin>
+		public plugins: Record<string, VencordPlugin>,
+		/** The IDs of plugins that failed to load. */
+		public failures: string[]
 	) {}
 
 	static async init(config: Config): Promise<Vencord> {
-		if (!(await exists('vencord'))) return new Vencord({});
+		if (!(await exists('vencord'))) return new Vencord({}, []);
 		const rawEntries = await readDir('vencord');
 		const entries: string[] = [];
 		for (const entry of rawEntries) {
@@ -28,15 +30,17 @@ export default class Vencord {
 		logger.info(`Loading ${entries.length} extension${s(entries.length)}`);
 
 		const plugins: Record<string, VencordPlugin> = {};
+		const failures: string[] = [];
 		for (const entry of entries) {
 			try {
 				plugins[entry] = await VencordPlugin.init(await getPath(`vencord/${entry}`));
 			} catch (e) {
+				failures.push(entry);
 				logger.error(`Failed to load extension ${entry}:\n\n`, e);
 			}
 		}
 
-		return new Vencord(plugins);
+		return new Vencord(plugins, failures);
 	}
 
 	getMoonlightData(): Required<ExtensionWebExports> {

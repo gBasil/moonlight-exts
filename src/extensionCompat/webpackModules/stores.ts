@@ -4,6 +4,7 @@ import { Store } from '@moonlight-mod/wp/discord/packages/flux';
 import Dispatcher from '@moonlight-mod/wp/discord/Dispatcher';
 import getNatives from '../util/natives';
 import { VENCORD_PLUGINS_JSON } from '../consts';
+import { ExtensionState } from '../types';
 
 const logger = moonlight.getLogger('extensionCompat');
 
@@ -19,6 +20,8 @@ class ExtensionCompatStore extends Store<any> {
 		installed: Config['vencord'];
 		/** Like `installed`, but used for reverting to the last saved state. */
 		origInstalled: Config['vencord'];
+		/** The IDs of plugins that failed to load. */
+		failures: string[];
 		/** The list of plugins, fetched from a remote URL. */
 		repo: PluginMeta[];
 	};
@@ -34,9 +37,10 @@ class ExtensionCompatStore extends Store<any> {
 		super(Dispatcher);
 
 		this.vencord = {
-			repo: [],
 			installed: {},
-			origInstalled: {}
+			origInstalled: {},
+			repo: [],
+			failures: natives.getVencordFailures()
 		};
 
 		this.submitting = false;
@@ -109,12 +113,14 @@ class ExtensionCompatStore extends Store<any> {
 		}
 	}
 
-	isInstalledVencordPlugin(id: string) {
-		return this.vencord.installed[id] !== undefined;
+	getVencordPluginFailed(id: string): boolean {
+		return this.vencord.failures.includes(id);
 	}
 
-	isEnabledVencordPlugin(id: string) {
-		return this.vencord.installed[id].enabled;
+	getVencordPluginState(id: string): ExtensionState {
+		if (this.vencord.installed[id] === undefined) return ExtensionState.NotInstalled;
+
+		return this.vencord.installed[id].enabled ? ExtensionState.Enabled : ExtensionState.Disabled;
 	}
 
 	setEnabledVencordPlugin(id: string, enabled: boolean) {

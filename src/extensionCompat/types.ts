@@ -25,3 +25,9 @@ export type PluginMeta = {
 		website?: string;
 	}[];
 };
+
+export enum ExtensionState {
+	NotInstalled,
+	Disabled,
+	Enabled
+}
