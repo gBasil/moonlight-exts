@@ -9,7 +9,7 @@ export type Config = {
 		enabled: boolean;
 		/** The metadata of the plugin when it was installed/updated. */
 		meta: PluginMeta;
-		settings: any;
+		settings: Record<string, any>;
 	}>;
 };
 

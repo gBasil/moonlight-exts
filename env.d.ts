@@ -32,11 +32,19 @@ declare module '*.webp' {
 
 interface Window<
 	// Imports are put here into generics to get around weirdness when adding imports
-	VencordPluginDef = import('src/extensionCompat/vencord/shims/@utils/types')
+	VencordPluginDef = import('src/extensionCompat/vencord/shims/@utils/types'),
+
+	// Types are also put here so as to not make them global
+	/** The name of a plugin (not to be confused with the ID, which isn't capitalized). */
+	VencordPluginName = string,
 > {
 	Vencord: {
 		Plugins: {
-			plugins: Record<string, VencordPluginDef>;
+			plugins: Record<VencordPluginName, VencordPluginDef>;
+		};
+		Settings: {
+			// There are a bunch of other properties available here, but I'm not sure if we need those for compatibility
+			plugins: Record<VencordPluginName, Record<string, any>>;
 		};
 	};
 }

@@ -1,4 +1,5 @@
 import type { PluginMeta } from 'src/extensionCompat/types';
+import type { ExtensionSettingsManifest } from '@moonlight-mod/types';
 
 import React from '@moonlight-mod/wp/react';
 import spacepack from '@moonlight-mod/wp/spacepack_spacepack';
@@ -8,10 +9,12 @@ import MarkupUtils from '@moonlight-mod/wp/discord/modules/markup/MarkupUtils';
 import IntegrationCard from '@moonlight-mod/wp/discord/modules/guild_settings/IntegrationCard.css';
 import { ExtensionState } from 'src/extensionCompat/types';
 import CardInfo from './CardInfo';
+import CardSettings from './CardSettings';
 
 enum ExtensionPage {
 	Info,
-	Description
+	Description,
+	Settings
 }
 
 const { TrashIcon, AngleBracketsIcon, CircleWarningIcon, Tooltip, Card: DiscordCard, Text, FormSwitch, TabBar, Button } = Components;
@@ -28,6 +31,8 @@ export type CardProps = {
 	version?: string;
 	/** The URL to the source code of the extension. */
 	source?: string;
+
+	settings?: Record<string, ExtensionSettingsManifest>;
 
 	state: ExtensionState;
 	implicitlyEnabled: boolean;
@@ -49,6 +54,8 @@ export type CardProps = {
 	onUninstall: () => Promise<boolean>;
 	/** Callback that runs when enabling or disabling the extension. */
 	onEnableChange: (enabled: boolean) => void;
+	/** Callback that runs when a setting value is changed */
+	onSettingsChange(key: string, value: any): void;
 };
 
 /*
@@ -64,6 +71,8 @@ TODO:
 export default function Card(props: CardProps) {
 	const [tab, setTab] = React.useState(ExtensionPage.Info);
 	const [busy, setBusy] = React.useState(false);
+
+	// const hasSettings = props.state === ExtensionState.Enabled && Extens;
 
 	return (
 		<DiscordCard editable={true} className={IntegrationCard.card}>
@@ -170,6 +179,16 @@ export default function Card(props: CardProps) {
 								Description
 							</TabBar.Item>
 						)}
+
+						{/*
+							// TODO: This is only visible after the plugin is enabled and loaded.
+							It would be good if it was at least indicated that a plugin *has* settings when uninstalled/disabled
+						*/}
+						{(props.settings !== undefined) && (
+							<TabBar.Item className={TabBarClasses.tabBarItem} id={ExtensionPage.Settings}>
+								Settings
+							</TabBar.Item>
+						)}
 					</TabBar>
 				)}
 
@@ -190,6 +209,10 @@ export default function Card(props: CardProps) {
 							})}
 						</Text>
 					)}
+					{/* {tab === ExtensionPage.Settings && <CardSettings
+						settings={props.settings!}
+						onChange={props.onSettingsChange}
+					/>} */}
 				</Flex>
 			</div>
 		</DiscordCard>

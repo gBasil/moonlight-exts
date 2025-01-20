@@ -9,6 +9,12 @@ export default [
 		plugins: {
 			'@stylistic': stylistic
 		},
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname
+			}
+		},
 		rules: {
 			'quotes': 'off',
 			'require-await': 'error',
@@ -16,6 +22,7 @@ export default [
 			'@typescript-eslint/consistent-type-imports': ['error', {
 				disallowTypeAnnotations: false
 			}],
+			'@typescript-eslint/no-deprecated': 'error',
 
 			'@stylistic/indent': ['error', 'tab'],
 			'@stylistic/quotes': ['error', 'single'],
@@ -31,5 +38,5 @@ export default [
 			}],
 			'@stylistic/eol-last': ['error']
 		}
-	}
+	},
 ];

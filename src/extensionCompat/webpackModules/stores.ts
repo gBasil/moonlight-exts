@@ -1,4 +1,5 @@
 import type { Config, PluginMeta } from '../types';
+import type { DefinedSettings } from '../vencord/shims/@utils/types';
 
 import { Store } from '@moonlight-mod/wp/discord/packages/flux';
 import Dispatcher from '@moonlight-mod/wp/discord/Dispatcher';
@@ -123,10 +124,24 @@ class ExtensionCompatStore extends Store<any> {
 		return this.vencord.installed[id].enabled ? ExtensionState.Enabled : ExtensionState.Disabled;
 	}
 
+	getVencordPluginSettings(id: string): Config['vencord']['']['settings'] | undefined {
+		return this.vencord.installed[id]?.settings;
+	}
+
 	setEnabledVencordPlugin(id: string, enabled: boolean) {
 		this.vencord.installed[id].enabled = enabled;
 		this.modified = true;
 		this.emitChange();
+	}
+
+	setSettingVencordPlugin(id: string, key: string, value: any, write = false) {
+		this.vencord.installed[id].settings[key] = value;
+
+		if (write) this.writeConfig();
+		else {
+			this.modified = true;
+			this.emitChange();
+		}
 	}
 
 	async writeConfig() {

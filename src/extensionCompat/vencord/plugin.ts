@@ -9,6 +9,7 @@ import { runtimeHashMessageKey } from './shims/@utils/intlHash';
 import { strToRegex } from '../util/regex';
 import { fs } from '../util/fs';
 
+import Settings from './shims/@api/Settings?raw';
 import constants from './shims/@utils/constants?raw';
 import types from './shims/@utils/types?raw';
 
@@ -33,6 +34,7 @@ export default class VencordPlugin {
 
 			plugins: [
 				transformImports({
+					'@api/Settings': Settings,
 					'@utils/constants': constants,
 					'@utils/types': types
 				})
