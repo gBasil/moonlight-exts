@@ -51,12 +51,5 @@ export const webpackModules: ExtensionWebExports['webpackModules'] = {
 			{ id: 'discord/actions/MessageActionCreators' },
 			{ id: 'discord/components/common/index' }
 		]
-	},
-	mappings: {
-		dependencies: [
-			{ ext: 'spacepack', id: 'spacepack' },
-			'ComponentDispatchUtils'
-		],
-		entrypoint: true
 	}
 };
