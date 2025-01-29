@@ -1,5 +1,7 @@
 import type { AddEvent, ReplyData } from './component';
 
+import { ComponentDispatcher } from '@moonlight-mod/wp/discord/utils/ComponentDispatchUtils';
+
 type Message = {
 	id: string;
 	content: string;
@@ -48,12 +50,8 @@ export async function handle(data: MessageData) {
 		return;
 	}
 
-	document.dispatchEvent(
-		new CustomEvent<AddEvent>('replyChain-add', {
-			detail: {
-				base:  getReplyData(data.baseMessage,               data.channel.guild_id),
-				reply: getReplyData(data.referencedMessage.message, data.channel.guild_id)
-			}
-		})
-	);
+	ComponentDispatcher.dispatch('REPLYCHAIN_ADD', {
+		base:  getReplyData(data.baseMessage,               data.channel.guild_id),
+		reply: getReplyData(data.referencedMessage.message, data.channel.guild_id)
+	} satisfies AddEvent);
 }

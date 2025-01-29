@@ -1,13 +1,7 @@
 import React from '@moonlight-mod/wp/react';
-import spacepack from '@moonlight-mod/wp/spacepack_spacepack';
+import MessageActionCreators from '@moonlight-mod/wp/discord/actions/MessageActionCreators';
+import { ComponentDispatcher } from '@moonlight-mod/wp/discord/utils/ComponentDispatchUtils';
 import * as Components from '@moonlight-mod/wp/discord/components/common/index';
-
-type JumpToMessage = (data: {
-	channelId: string;
-	messageId: string;
-	flash?: boolean;
-}) => void;
-const jumpToMessage: JumpToMessage = spacepack.findByExports('jumpToMessage')[0].exports.Z.jumpToMessage;
 
 export type ReplyData = {
 	authorAvatar: string;
@@ -34,14 +28,16 @@ export function Component() {
 
 	const showWithTwo = moonlight.getConfigOption<boolean>('replyChain', 'showWithTwo') ?? false;
 
+	const shown = list.length >= (showWithTwo ? 2 : 3);
+
 	if (atTop.current && listEl.current) {
 		listEl.current.scrollTop = 0;
 	}
 
 	React.useEffect(() => {
-		document.addEventListener('replyChain-add', add);
+		ComponentDispatcher.subscribe('REPLYCHAIN_ADD', add);
 
-		function add({ detail: data }: CustomEvent<AddEvent>) {
+		function add(data: AddEvent) {
 			setList(list => {
 				const i = list.findIndex(e => e.messageId === data.base.messageId);
 
@@ -52,9 +48,18 @@ export function Component() {
 		}
 
 		return function() {
-			document.removeEventListener('replyChain-add', add);
+			ComponentDispatcher.unsubscribe('REPLYCHAIN_ADD', add);
 		};
 	}, []);
+
+	React.useEffect(() => {
+		if (shown) ComponentDispatcher.subscribe  ('REPLYCHAIN_CLOSE', close);
+		else       ComponentDispatcher.unsubscribe('REPLYCHAIN_CLOSE', close);
+
+		return function() {
+			ComponentDispatcher.unsubscribe('REPLYCHAIN_CLOSE', close);
+		};
+	}, [shown]);
 
 	function onScroll() {
 		if (!listEl.current) return;
@@ -66,9 +71,7 @@ export function Component() {
 		setList([]);
 	}
 
-	// TODO: Close on pressing escape
-
-	if (list.length < (showWithTwo ? 2 : 3)) return <></>;
+	if (!shown) return <></>;
 
 	return <div className='replyChain-container'>
 		<button className='replyChain-close' onClick={close}>
@@ -85,14 +88,14 @@ export function Component() {
 
 function Line({ data }: { data: ReplyData; }) {
 	function jump() {
-		jumpToMessage({
+		MessageActionCreators.jumpToMessage({
 			channelId: data.channelId,
 			messageId: data.messageId,
 			flash: true
 		});
 	}
 
-	// TODO: Render the content properly (higlighting links, removing markdown, and such)
+	// TODO: Render the content properly (highlighting links, removing markdown, and such)
 	// TODO: Show a media icon if media exists
 	return <li>
 		<button className='replyChain-entry' onClick={jump}>
