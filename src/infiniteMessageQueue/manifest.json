@@ -1,0 +1,12 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "infiniteMessageQueue",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Infinite Message Queue",
+		"tagline": "Remove limit on the pending message queue.",
+		"authors": ["Basil"],
+		"tags": ["dangerZone"]
+	}
+}

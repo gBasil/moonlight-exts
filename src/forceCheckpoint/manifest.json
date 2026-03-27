@@ -1,0 +1,12 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "forceCheckpoint",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Force Checkpoint",
+		"tagline": "Uses dummy data for Discord Checkpoint",
+		"authors": ["Basil"],
+		"deprecated": true
+	}
+}
