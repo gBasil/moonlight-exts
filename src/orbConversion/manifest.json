@@ -1,0 +1,13 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "orbConversion",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Orb Conversion",
+		"tagline": "Displays roughly how much many dollars worth of orbs you have.",
+		"description": "This extension only changes to the orb counter and has no way to toggle it off short of disabling the extension.",
+		"authors": ["Basil"],
+		"tags": ["fun"]
+	}
+}
