@@ -1,0 +1,22 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "excludeAutocompleteEmojis",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Exclude Autocomplete Emojis",
+		"tagline": "Don't show emoji autocomplete for specific text.",
+		"description": "Don't show the emoji autocomplete menu when typing specific text that starts with `:`.",
+		"authors": ["Basil"],
+		"tags": ["qol"]
+	},
+	"settings": {
+		"strings": {
+			"type": "list",
+			"displayName": "Strings",
+			"description": "Do not include the \":\" in the strings. If any of the entries strictly match the emoji query, the autocomplete menu is hidden. If an entry starts and ends with slashes, the slashes will be trimmed off and it will be used as a regex.",
+			"default": [],
+			"advice": "reload"
+		}
+	}
+}
