@@ -5,8 +5,8 @@ export const patches: ExtensionWebExports['patches'] = [
 		find: 'menu-separator-statuses',
 		replace: [
 			{
-				match: /,.(\?\(0,.\.jsxs\))/g,
-				replacement: `,true$1`
+				match: /,(.)(\?\(0,.\.jsxs\))(.+?)badge:{text:.*?}/g,
+				replacement: `,true$2$3badge:{text:$1?"ON":"OFF"}`
 			}
 		]
 	}
