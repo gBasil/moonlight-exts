@@ -1,0 +1,12 @@
+{
+	"$schema": "https://moonlight-mod.github.io/manifest.schema.json",
+	"id": "showFocusMode",
+	"version": "1.0.0",
+	"apiLevel": 2,
+	"meta": {
+		"name": "Show Focus Mode",
+		"tagline": "Shows the removed but still functional Focus Mode in the status picker",
+		"authors": ["Basil"],
+		"tags": ["qol"]
+	}
+}
